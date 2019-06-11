@@ -12,7 +12,7 @@ SECRET_KEY = '4+vgw065##&m(nheds2ij-h&6xl_c(v1*i(8^lpn*e-4vl!re2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.93']
+ALLOWED_HOSTS = ['192.168.2.93', 'localhost']
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -24,12 +24,17 @@ DATABASES = {
 }
 
 # JWT
-JWT_EXPIRATION_DELTA = datetime.timedelta(minutes=5)
-JWT_REFRESH_EXPIRATION_DELTA = datetime.timedelta(days=1)
+JWT_EXPIRATION_DELTA = datetime.timedelta(days=1)
+JWT_REFRESH_EXPIRATION_DELTA = datetime.timedelta(days=7)
 JWT_ALLOW_REFRESH = True
+JWT_AUTH_HEADER_PREFIX = 'Bearer'
+JWT_AUTH_COOKIE = 'jwt_auth_token'
+JWT_CSRF_COOKIE = True
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -47,12 +52,14 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-# CORS_ORIGIN_WHITELIST = (
-#     'localhost:8080',
-#     'localhost:8081',
-#     'localhost:8082',
-#     '192.168.2.93:8081',
-# )
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+    'localhost:8081',
+    'localhost:8082',
+    '192.168.2.93:8081',
+)
+
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = default_headers + (
     'X-REQUEST-ID',
@@ -62,3 +69,6 @@ API_MIDDLEWARE_CHARS = tuple('x4$59G!kW*')
 API_MIDDLEWARE_TIMESPAN = 4
 
 INTERNAL_IPS = ['127.0.0.1']
+
+CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False

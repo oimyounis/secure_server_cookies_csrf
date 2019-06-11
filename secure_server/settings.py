@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from .config import *
-from .ldap import *
-from .email import *
+# from .ldap import *
+# from .email import *
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -33,7 +33,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'secure_server.middleware.APISecurityMiddleware',
+    # 'secure_server.middleware.APISecurityMiddleware',
+    'secure_server.middleware.CSRFCheckMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,8 +66,9 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': JWT_ALLOW_REFRESH,
     'JWT_REFRESH_EXPIRATION_DELTA': JWT_REFRESH_EXPIRATION_DELTA,
 
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_AUTH_COOKIE': None,
+    'JWT_AUTH_HEADER_PREFIX': JWT_AUTH_HEADER_PREFIX,
+    'JWT_AUTH_COOKIE': JWT_AUTH_COOKIE,
+    'CSRF_COOKIE': JWT_CSRF_COOKIE,
 }
 
 ROOT_URLCONF = 'secure_server.urls'
