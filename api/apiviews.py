@@ -2,6 +2,7 @@ from datetime import datetime
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework_jwt.settings import api_settings
@@ -126,7 +127,8 @@ class LoginAPI(APIView):
                 res.set_cookie(api_settings.JWT_AUTH_COOKIE,
                                jwt_encode_handler(jwt_payload_handler(user)),
                                expires=expiration,
-                               httponly=False)
+                               httponly=False,
+                               domain=settings.SESSION_COOKIE_DOMAIN, samesite='lax')
             return res
         else:
             return Response({'status': 0, 'message': 'Wrong username or password'}, status=400)
